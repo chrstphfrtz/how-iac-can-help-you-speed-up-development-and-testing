@@ -16,24 +16,15 @@ const pool = new Pool({
 });
 
 (async () => {
-  let client: PoolClient | undefined;
-  try {
-    client = await pool.connect();
-    const createTodosTableSql = `
+  const client = await pool.connect();
+  const createTodosTableSql = `
       CREATE TABLE IF NOT EXISTS todos (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `;
-    await client.query(createTodosTableSql);
-  } catch (err) {
-    throw err;
-  } finally {
-    if (client) {
-      client.release();
-    }
-  }
+  client.release();
 })()
 
 const app = express();
@@ -42,56 +33,35 @@ const port = process.env.PORT || 3000;
 
 app.get('/', async (req: Request, res: Response) => {
   let client: PoolClient | undefined;
-  try {
-    client = await pool.connect();
-    const result = await client.query('SELECT * FROM todos');
-    res.status(200).json(
-      result.rows,
-    )
-  } catch (err) {
-    throw err;
-  } finally {
-    if (client) {
-      client.release();
-    }
-  }
+  client = await pool.connect();
+  const result = await client.query('SELECT * FROM todos');
+  client.release();
+  res.status(200).json(
+    result.rows,
+  )
 });
 
 app.post('/', async (req: Request, res: Response) => {
   let client: PoolClient | undefined;
   const { title } = req.body;
-  try {
-    client = await pool.connect();
-    const sql = "INSERT INTO todos (title) VALUES ($1) RETURNING id";
-    const values = [title];
-    const result = await client.query(sql, values);
-    res.status(201).json({
-      id: result.rows[0].id,
-      title: title,
-    });
-  } catch (err) {
-    throw err;
-  } finally {
-    if (client) {
-      client.release();
-    }
-  }
+  client = await pool.connect();
+  const sql = "INSERT INTO todos (title) VALUES ($1) RETURNING id";
+  const values = [title];
+  const result = await client.query(sql, values);
+  client.release();
+  res.status(201).json({
+    id: result.rows[0].id,
+    title: title,
+  });
 })
 
 app.delete('/:id', async (req: Request, res: Response) => {
   let client: PoolClient | undefined;
   const id = parseInt(req.params.id, 10);
-  try {
-    client = await pool.connect();
-    await client.query(`DELETE FROM todos WHERE id = ${id}`);
-    res.status(204).send();
-  } catch (err) {
-    throw err;
-  } finally {
-    if (client) {
-      client.release();
-    }
-  }
+  client = await pool.connect();
+  await client.query(`DELETE FROM todos WHERE id = ${id}`);
+  client.release();
+  res.status(204).send();
 })
 
 app.listen(port, () => {

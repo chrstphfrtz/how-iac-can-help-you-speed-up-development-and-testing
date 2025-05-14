@@ -10,7 +10,7 @@ When starting the Dev Container multiple things happen:
 
 - Node.js, Typescript and the Pulumi CLI are installed as part of container image and features
 - The initialization script `init.sh` runs and
-  - sources the `PULUMI_ACCESS_TOKEN` and `DIGITALOCEAN_TOKEN` from the top-level `.env` file
+  - sources the `PULUMI_ACCESS_TOKEN`, `DIGITALOCEAN_TOKEN` and `DIGITALOCEAN_PROJECT_ID` environment variables from the top-level `.env` file
   - exports the current branch as the stack name for the Pulumi CLI as the environment variable `STACK`
   - creates a new stack for the Pulumi CLI if it does not already exist
   - provisions the infrastructure defined in the `iac/` directory
@@ -21,7 +21,7 @@ When starting the Dev Container multiple things happen:
 ## Usage
 
 1. Copy the top-level `.env.example` file and name it `.env`
-2. Copy in your `PULUMI_ACCESS_TOKEN` and `DIGITALOCEAN_TOKEN`
+2. Copy in your `PULUMI_ACCESS_TOKEN`, `DIGITALOCEAN_TOKEN` and `DIGITALOCEAN_PROJECT_ID`
 3. Start any editor that supports Dev Containers and build the container
 4. Scan the QR code of the Expo CLI and start developing/testing
 

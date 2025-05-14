@@ -1,10 +1,11 @@
 import * as digitalocean from "@pulumi/digitalocean";
 
 const stack = process.env.STACK;
+const projectId = process.env.DIGITALOCEAN_PROJECT_ID;
 
 const demoBackendName = `demo-backend-${stack}`
 const demoBackend = new digitalocean.App(demoBackendName, {
-  projectId: "c1cf44a6-cd57-41bf-b95b-f6a60efed99c",
+  projectId: projectId,
   spec: {
     databases: [{
       clusterName: "dev",
@@ -40,7 +41,7 @@ const demoBackend = new digitalocean.App(demoBackendName, {
       instanceCount: 1,
       instanceSizeSlug: "apps-s-1vcpu-0.5gb",
       git: {
-        repoCloneUrl: "https://github.com/chrstphfrtz/how-iac-can-help-you-speed-up-development-and-testing-demo.git",
+        repoCloneUrl: "https://github.com/chrstphfrtz/how-iac-can-help-you-speed-up-development-and-testing.git",
         branch: "main"
       },
       sourceDir: "code/backend"
