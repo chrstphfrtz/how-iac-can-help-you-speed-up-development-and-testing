@@ -9,7 +9,12 @@
 		"vscode": {
 			"extensions": [
 				"marp-team.marp-vscode"
-			]
+			],
+			"settings": {
+				"markdown.marp.themes": [
+					"./slides/themes/custom.css"
+				]
+			},
 		}
 	}
 }
