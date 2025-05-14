@@ -24,6 +24,7 @@ const pool = new Pool({
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `;
+  await client.query(createTodosTableSql);
   client.release();
 })()
 
