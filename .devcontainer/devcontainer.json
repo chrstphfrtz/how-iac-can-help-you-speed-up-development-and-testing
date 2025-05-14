@@ -4,5 +4,12 @@
 	"features": {
 		"ghcr.io/devcontainers-extra/features/pulumi:1": {}
 	},
-	"postStartCommand": "./.devcontainer/init.sh"
+	"postCreateCommand": "./.devcontainer/init.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"marp-team.marp-vscode"
+			]
+		}
+	}
 }
